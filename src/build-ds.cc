@@ -72,50 +72,52 @@ void getDataSource(rapidjson::StringBuffer &s, T_DS &dados) {
 void getDataPoint(rapidjson::StringBuffer &s, T_DS &dados, long num_dp) {
     rapidjson::Writer<rapidjson::StringBuffer> writer(s);
 
-    std::string dp_xid;
+    std::string dp_xid, dp_name;
 
     writer.StartObject();
     writer.String("dataPoints");
     writer.StartArray();
     for (int k = 0; k < num_dp; k++) {
         //sst.flush();
-        std::stringstream sst;
+        std::stringstream sst, sdp;
         sst << "DP_" << std::setfill('0') << std::setw(3) << dados.id;
         sst << std::setfill('0') << std::setw(3) << std::to_string(k + 1);
         sst >> dp_xid;
+        dp_name = "Point " + std::to_string(k + 1);
         //
         writer.StartObject();
-        writer.String("xid");//
+        writer.String("xid"); //
         writer.String(dp_xid.c_str());
-        writer.String("loggingType");//
+        writer.String("loggingType"); //
         writer.String("ON_CHANGE");
-        writer.String("intervalLoggingPeriodType");//
+        writer.String("intervalLoggingPeriodType"); //
         writer.String("MINUTES");
-        writer.String("intervalLoggingType");//
+        writer.String("intervalLoggingType"); //
         writer.String("INSTANT");
-        writer.String("purgeType");//
+        writer.String("purgeType"); //
         writer.String("YEARS");
-        writer.String("pointLocator");//
+        writer.String("pointLocator"); //
         {
             writer.StartObject();
-            writer.String("dataType");//
+            writer.String("dataType"); //
             writer.String("BINARY");
-            writer.String("changeType");//
-            {   writer.StartObject();
-                writer.String("type");//
+            writer.String("changeType"); //
+            {
+                writer.StartObject();
+                writer.String("type"); //
                 writer.String("RANDOM_BOOLEAN");
-                writer.String("startValue");//
+                writer.String("startValue"); //
                 writer.String("true");
                 writer.EndObject();
             }
-            writer.String("settable");//
+            writer.String("settable"); //
             writer.Bool(false);
             writer.EndObject();
         }
-        writer.String("eventDetectors");//
+        writer.String("eventDetectors"); //
         writer.StartArray();
         writer.EndArray();
-        writer.String("engineeringUnits");//
+        writer.String("engineeringUnits"); //
         writer.String("");
         writer.String("chartColour"); //"chartColour":null,
         writer.Null();
@@ -127,20 +129,31 @@ void getDataPoint(rapidjson::StringBuffer &s, T_DS &dados, long num_dp) {
         writer.Uint(1);
         writer.String("deviceName"); // "deviceName":"Andar1_Estudo01",
         writer.String(dados.ds_name.c_str());
-        writer.String("discardExtremeValues");// "discardExtremeValues":false,
+        writer.String("discardExtremeValues"); // "discardExtremeValues":false,
         writer.Bool(false);
-        writer.String("discardHighLimit");// "discardHighLimit":1.7976931348623157E308,
+        writer.String("discardHighLimit"); // "discardHighLimit":1.7976931348623157E308,
         writer.Double(std::numeric_limits<double>::max());
-        writer.String("discardLowLimit");// "discardLowLimit":-1.7976931348623157E308,
+        writer.String("discardLowLimit"); // "discardLowLimit":-1.7976931348623157E308,
         writer.Double(std::numeric_limits<double>::lowest());
-        writer.String("enabled");// "enabled":true,
+        writer.String("enabled"); // "enabled":true,
         writer.Bool(dados.enabled);
-        writer.String("intervalLoggingPeriod");// "intervalLoggingPeriod":15,
+        writer.String("intervalLoggingPeriod"); // "intervalLoggingPeriod":15,
         writer.Uint(15);
-        writer.String("name");// "name":"Porta01",
-        writer.String(dp_name);
-        writer.String("purgePeriod");// "purgePeriod":1,
+        writer.String("name"); // "name":"Porta01",
+        writer.String(dp_name.c_str());
+        writer.String("purgePeriod"); // "purgePeriod":1,
         writer.Uint(1);
+        writer.String("textRenderer"); // textRenderer
+        {
+            writer.StartObject();
+            writer.String("type"); //"type":"PLAIN",
+            writer.String("PLAIN");
+            writer.String("suffix"); //"suffix":""
+            writer.String("");
+            writer.EndObject();
+        }
+        writer.String("tolerance"); //"tolerance":0.0
+        writer.Double(0.0);
         writer.EndObject();
     }
     writer.EndArray();
@@ -187,4 +200,15 @@ void getDataPoint(rapidjson::StringBuffer &s, T_DS &dados, long num_dp) {
      }
      */
 
+}
+
+void generateData(rapidjson::StringBuffer &s, T_DS &dados, long num_dp, long num_ds) {
+    rapidjson::Writer<rapidjson::StringBuffer> writer(s);
+
+    writer.StartObject();
+    writer.String("dataSources");
+    writer.StartArray();
+    writer.EndArray();
+
+    writer.EndObject();
 }

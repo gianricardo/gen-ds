@@ -51,7 +51,7 @@ int main(int argc, char **argv) {
         s.Clear();
         if(dp>0){
             getDataPoint(s, ds_gen, dp);
-            cout << s.GetString() << endl;
+            cout << s.GetString() << endl<< endl<< endl;
             s.Clear();
         }
     }
