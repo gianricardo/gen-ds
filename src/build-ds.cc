@@ -132,7 +132,7 @@ void getDataPoint(rapidjson::Writer<rapidjson::StringBuffer> &writer, T_DS &dado
 //    writer.EndObject();
 }
 
-void generateData(rapidjson::StringBuffer &s, long num_dp, long num_ds) {
+void generateData(rapidjson::StringBuffer &s, long num_dp, long num_ds, bool enbl) {
     rapidjson::Writer<rapidjson::StringBuffer> writer(s);
     std::vector<T_DS> dados_ds;
 
@@ -143,6 +143,7 @@ void generateData(rapidjson::StringBuffer &s, long num_dp, long num_ds) {
         T_DS ds_gen;
         ds_gen.id = i;
         ds_gen.name = "Andar ";
+        ds_gen.enabled = enbl;
         getDataSource(writer, ds_gen);
         dados_ds.push_back(ds_gen);
     }

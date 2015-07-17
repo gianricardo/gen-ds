@@ -7,6 +7,7 @@ int main(int argc, char **argv) {
     int i;
     long ds, dp;
     bool debug = false;
+    bool enabled = true;
     ds = dp = 0;
 
     for (i = 0; i < argc; i++) {
@@ -23,6 +24,8 @@ int main(int argc, char **argv) {
             }
         } else if (op == "-v") {
             debug = true;
+        }else if (op == "-e") {
+            enabled = true;
         }
     }
 
@@ -55,7 +58,7 @@ int main(int argc, char **argv) {
 //            s.Clear();
 //        }
 //    }
-    generateData(s,dp,ds);
+    generateData(s,dp,ds, enabled);
     cout << s.GetString() << endl;
     return 0;
 }
