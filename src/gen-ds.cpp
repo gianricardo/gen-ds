@@ -42,19 +42,21 @@ int main(int argc, char **argv) {
     rapidjson::StringBuffer s;
 //    getDataSource(s,1,"Andar ");
 //    cout << s.GetString() << endl;
-    for (i = 1; i <= ds; i++) {
-        T_DS ds_gen;
-        ds_gen.id = i;
-        ds_gen.name = "Andar ";
-        getDataSource(s, ds_gen);
-        cout << s.GetString() << endl;
-        s.Clear();
-        if(dp>0){
-            getDataPoint(s, ds_gen, dp);
-            cout << s.GetString() << endl<< endl<< endl;
-            s.Clear();
-        }
-    }
+//    for (i = 1; i <= ds; i++) {
+//        T_DS ds_gen;
+//        ds_gen.id = i;
+//        ds_gen.name = "Andar ";
+//        getDataSource(s, ds_gen);
+//        cout << s.GetString() << endl;
+//        s.Clear();
+//        if(dp>0){
+//            getDataPoint(s, ds_gen, dp);
+//            cout << s.GetString() << endl<< endl<< endl;
+//            s.Clear();
+//        }
+//    }
+    generateData(s,dp,ds);
+    cout << s.GetString() << endl;
     return 0;
 }
 

@@ -319,10 +319,14 @@ protected:
         if (level_stack_.GetSize() != 0) { // this value is not at root
             Level* level = level_stack_.template Top<Level>();
             if (level->valueCount > 0) {
-                if (level->inArray) 
+                if (level->inArray) {
                     os_->Put(','); // add comma if it is not the first element in array
-                else  // in object
+                    os_->Put('\n');
+                }else{  // in object
                     os_->Put((level->valueCount % 2 == 0) ? ',' : ':');
+                    if(level->valueCount % 2 == 0)
+                        os_->Put('\n');
+                }
             }
             if (!level->inArray && level->valueCount % 2 == 0)
                 RAPIDJSON_ASSERT(type == kStringType);  // if it's in object, then even number should be a name

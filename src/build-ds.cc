@@ -11,31 +11,18 @@
 #include <iostream>
 #include <iomanip>
 #include <limits>
+#include <vector>
 
-void getDataSource(rapidjson::StringBuffer &s, T_DS &dados) {
-    rapidjson::Writer<rapidjson::StringBuffer> writer(s);
+void getDataSource(rapidjson::Writer<rapidjson::StringBuffer> &writer, T_DS &dados) {
+    //rapidjson::Writer<rapidjson::StringBuffer> writer(s);
     std::stringstream sst;
     sst << "DS_1" << std::setfill('0') << std::setw(5) << dados.id;
 
-    writer.StartObject();
-    writer.String("dataSources");
-//    writer.String("world");
-//    writer.String("t");
-//    writer.Bool(true);
-//    writer.String("f");
-//    writer.Bool(false);
-//    writer.String("n");
-//    writer.Null();
-//    writer.String("i");
-//    writer.Uint(123);
-//    writer.String("pi");
-//    writer.Double(3.1416);
-//    writer.String("a");
-//    for (unsigned i = 0; i < 4; i++)
-//        writer.Uint(i);
+//    writer.StartObject();
+//    writer.String("dataSources");
     dados.ds_name = dados.name + std::to_string(dados.id);
     dados.ds_xid = sst.str();
-    writer.StartArray();
+//    writer.StartArray();
     writer.StartObject();
     writer.String("xid");
     writer.String(sst.str().c_str());
@@ -50,33 +37,18 @@ void getDataSource(rapidjson::StringBuffer &s, T_DS &dados) {
     writer.String("updatePeriods");
     writer.Uint(5);
     writer.EndObject();
-    writer.EndArray();
-    writer.EndObject();
-
-    /*
-     {
-     "dataSources":[
-     {
-     "xid":"DS_312215",
-     "type":"VIRTUAL",
-     "updatePeriodType":"MINUTES",
-     "enabled":true,
-     "name":"Andar1_Estudo01",
-     "updatePeriods":5
-     }
-     ]
-     }
-     */
+//    writer.EndArray();
+//    writer.EndObject();
 }
 
-void getDataPoint(rapidjson::StringBuffer &s, T_DS &dados, long num_dp) {
-    rapidjson::Writer<rapidjson::StringBuffer> writer(s);
+void getDataPoint(rapidjson::Writer<rapidjson::StringBuffer> &writer, T_DS &dados, long num_dp) {
+    //rapidjson::Writer<rapidjson::StringBuffer> writer(s);
 
     std::string dp_xid, dp_name;
 
-    writer.StartObject();
-    writer.String("dataPoints");
-    writer.StartArray();
+//    writer.StartObject();
+//    writer.String("dataPoints");
+//    writer.StartArray();
     for (int k = 0; k < num_dp; k++) {
         //sst.flush();
         std::stringstream sst, sdp;
@@ -156,59 +128,33 @@ void getDataPoint(rapidjson::StringBuffer &s, T_DS &dados, long num_dp) {
         writer.Double(0.0);
         writer.EndObject();
     }
-    writer.EndArray();
-    writer.EndObject();
-    /*
-     {
-     "dataPoints":[
-     {
-     "xid":"DP_534715",
-     "loggingType":"ON_CHANGE",
-     "intervalLoggingPeriodType":"MINUTES",
-     "intervalLoggingType":"INSTANT",
-     "purgeType":"YEARS",
-     "pointLocator":{
-     "dataType":"BINARY",
-     "changeType":{
-     "type":"RANDOM_BOOLEAN",
-     "startValue":"true"
-     },
-     "settable":false
-     },
-     "eventDetectors":[
-     ],
-     "engineeringUnits":"",
-     "chartColour":null,
-     "chartRenderer":null,
-     "dataSourceXid":"DS_312215",
-     "defaultCacheSize":1,
-     "deviceName":"Andar1_Estudo01",
-     "discardExtremeValues":false,
-     "discardHighLimit":1.7976931348623157E308,
-     "discardLowLimit":-1.7976931348623157E308,
-     "enabled":true,
-     "intervalLoggingPeriod":15,
-     "name":"Porta01",
-     "purgePeriod":1,
-     "textRenderer":{
-     "type":"PLAIN",
-     "suffix":""
-     },
-     "tolerance":0.0
-     }
-     ]
-     }
-     */
-
+//    writer.EndArray();
+//    writer.EndObject();
 }
 
-void generateData(rapidjson::StringBuffer &s, T_DS &dados, long num_dp, long num_ds) {
+void generateData(rapidjson::StringBuffer &s, long num_dp, long num_ds) {
     rapidjson::Writer<rapidjson::StringBuffer> writer(s);
+    std::vector<T_DS> dados_ds;
 
     writer.StartObject();
     writer.String("dataSources");
     writer.StartArray();
+    for (int i = 1; i <= num_ds; i++) {
+        T_DS ds_gen;
+        ds_gen.id = i;
+        ds_gen.name = "Andar ";
+        getDataSource(writer, ds_gen);
+        dados_ds.push_back(ds_gen);
+    }
     writer.EndArray();
 
+    if (num_dp > 0) {
+        writer.String("dataPoints");
+        writer.StartArray();
+        for (auto dados : dados_ds) {
+            getDataPoint(writer, dados, num_dp);
+        }
+        writer.EndArray();
+    }
     writer.EndObject();
 }

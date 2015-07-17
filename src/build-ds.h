@@ -17,7 +17,7 @@ typedef struct{
     bool enabled=false;
 }T_DS;
 
-void generateData(rapidjson::StringBuffer &s,T_DS &dados, long num_dp, long num_ds);
+void generateData(rapidjson::StringBuffer &s, long num_dp, long num_ds);
 void getDataSource(rapidjson::StringBuffer &s,T_DS &dados);
 void getDataPoint(rapidjson::StringBuffer &s,T_DS &dados, long num_dp);
 
